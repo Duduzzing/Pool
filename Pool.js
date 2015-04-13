@@ -1152,13 +1152,39 @@ Pool.Map.getEntitiesInRange = function(range, base){
 	}else if(Pool.Entity.isEntity(base)){
 		base = new Pool.Entity(base).getVector();
 	}else{
-		base = Pool.Entity.getPlayer().getVector();
+                base = Pool.Entity.getPlayer().getVector();
 	}
 	
     return Entity.getAll().filter(function(ent){
         return Math.hypot(base.x - Entity.getX(ent), base.y - Entity.getY(ent), base.z - Entity.getZ(ent)) < range;
     });
 };
+
+/**
+ * 엔티티의 최대 체력을 구합니다
+ *
+ * @since 2015-04-14 (API 1)
+ * @author Duduzzing <enenwld80605@naver.com>
+ * @param {EntityId|Pool.Entity} ent
+ * @return {Number} 엔티티 최대체력
+ */
+Pool.Entity.prototype.getMaxHealth = function(ent){
+	if(ent instanceof Pool.Entity){
+ 		ent = ent.ent;
+ 	}
+	
+	var typeId = Entity.getEntityTypeId(ent);
+	
+	if(typeId == 0){
+                return 20;
+        }
+
+	var health;
+	var tempEnt = Level.spawnMob(Player.getX(), Player.getY(), Player.getZ, typeId);
+	health = Entity.getHealth(tempEnt);
+	Entity.remove(tempEnt);
+        return health;
+}
 
 /**
  * 문자열의 모양에 따라 블럭을 설치합니다
