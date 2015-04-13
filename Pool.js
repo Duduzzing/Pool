@@ -1656,6 +1656,27 @@ Pool.Math.radrt = function(n, target){
 };
 
 
+/**
+ * 주어진 배열안의 가장 많이 반복되는 원소를 구합니다 (최빈값)
+ * @since 2015-04-13 (API 1)
+ * @author duduzzing <enenwld80605@naver.com>
+ * @param {Array} array
+ */
+Pool.Math.mode = function(array){
+	var num = [];
+	var count = [];
+
+	array.forEach(function(element, index){
+  		if(num.indexOf(element)+1){
+  		count[index]++; 
+  		} else if(num.indexOf(element) == -1){
+  		num.push(element);
+  		count.push(1); 
+  		}
+	}); 
+  return num[count.indexOf(Math.max.apply(null,count))];
+}
+
 
 
 
